@@ -1,0 +1,771 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+    <title>تطبيق شوف بلاي | shoof play -  مسلسلات وافلام</title>
+    <link rel="shortcut icon" type="image/x-icon" href="https://i.servimg.com/u/f62/20/15/89/97/logo16.png" id="favicon">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://unpkg.com/swiper@8.4.5/swiper-bundle.min.css">
+    <meta name="description" content="تطبيق حقيقة هو تطبيق بث مباشر يمكنك من مشاهدة مباريات كرة القدم وقنوات مثل OSN و ART و BeIN بسهولة وجودة عالية. ابدأ في متابعة أحدث المباريات المباشرة ومشاهدة القنوات التلفزيونية المفضلة لديك على تطبيق حقيقة. استمتع بتجربة مشاهدة مثيرة وممتعة مع تطبيق حقيقة الذي يقدم لك أفضل المحتويات الرياضية والترفيهية على مدار الساعة. احصل على إشعارات فورية ببدء المباريات المهمة ولا تفوت أي لحظة مثيرة. قم بتحميل تطبيق حقيقة الآن وابدأ في استكشاف عالم المتعة والترفيه على مدار الوقت.">
+  <meta name="keywords" content="تطبيق حقيقة تيفي, بث مباشر, مباريات, قنوات, OSN, ART, BeIN">
+    <style>
+        :root {
+            --main-color: #2a2a72;
+            --secondary-color: #009ffd;
+            --accent-color: #ff4757;
+            --bg-color: #0a0a2e;
+            --telegram-color: #0088cc;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Tajawal', sans-serif;
+        }
+
+        body {
+            background: linear-gradient(45deg, var(--bg-color), #1a1a4a);
+            color: white;
+            min-height: 100vh;
+            overflow-x: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 1rem;
+            flex: 1;
+            width: 95%;
+        }
+
+        /* Header Styles */
+        header {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            padding: 1rem ;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 1000;
+            transition: all 0.3s ease;
+            background: transparent;
+        }
+
+        header.scrolled {
+            background: rgba(0, 31, 63, 0.95);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+        }
+
+        .header-content {
+            display: flex;
+            width: 100%;
+            max-width: 1400px;
+            margin: 0 auto;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .header-buttons {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+        }
+
+        .copy-code-btn {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: white;
+        }
+
+        .copy-code-btn:hover {
+            background: var(--secondary-color);
+            transform: translateY(-2px);
+        }
+
+        .logo-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 1rem;
+            margin-top: 100px;
+        }
+
+        .logo-img {
+            width: clamp(120px, 25vw, 180px);
+            height: auto;
+            filter: drop-shadow(0 0 15px rgba(0, 159, 253, 0.4));
+        }
+
+        .app-name {
+            font-size: clamp(1.5rem, 6vw, 2.5rem);
+            color: var(--secondary-color);
+            text-shadow: 0 0 15px rgba(0, 159, 253, 0.3);
+            white-space: nowrap;
+        }
+
+        /* Hero Section */
+        .hero {
+            text-align: center;
+            padding: 2rem 0;
+            position: relative;
+            margin-top: 0px;
+        }
+
+        .hero h1 {
+            font-size: clamp(1.8rem, 6vw, 3rem);
+            margin: 1rem 0;
+            background: linear-gradient(45deg, #fff, var(--secondary-color));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            line-height: 1.3;
+            padding: 0 1rem;
+        }
+
+        .hero p {
+            font-size: clamp(1rem, 3vw, 1.2rem);
+            color: #ddd;
+            max-width: 800px;
+            margin: 0 auto 2rem;
+            line-height: 1.6;
+            padding: 0 1rem;
+        }
+
+        /* Download Buttons */
+        .download-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 1.5rem;
+            margin: 2rem 0;
+            padding: 0 1rem;
+            
+            
+        }
+
+        .download-btn {
+            background: linear-gradient(45deg, var(--main-color), var(--secondary-color));
+            color: white;
+            padding: clamp(1rem, 3vw, 1.5rem) clamp(2rem, 5vw, 3rem);
+            border: none;
+            border-radius: 35px;
+            font-size: clamp(0.9rem, 3vw, 1.2rem);
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            flex-shrink: 0;
+            box-shadow: 0 5px 25px rgba(0, 159, 253, 0.3);
+            justify-content: center;
+        }
+
+        .download-btn-secondary {
+            background: linear-gradient(45deg, #ff6b6b, var(--accent-color));
+            box-shadow: 0 5px 25px rgba(255, 71, 87, 0.3);
+        }
+
+        .google-play-btn {
+            background: linear-gradient(45deg, #4285F4, #0F9D58);
+            box-shadow: 0 5px 25px rgba(66, 133, 244, 0.3);
+        }
+
+        .download-btn:hover {
+            transform: translateY(-3px);
+        }
+
+        /* App Info Section */
+        .app-info {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(min(250px, 100%), 1fr));
+            gap: 1.5rem;
+            max-width: 1000px;
+            margin: 2rem auto;
+            padding: 1.5rem;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 20px;
+        }
+
+        .info-item {
+            text-align: center;
+            padding: 1rem;
+        }
+
+        .info-icon {
+            font-size: 1.8rem;
+            color: var(--secondary-color);
+            margin-bottom: 0.8rem;
+        }
+
+        /* Screenshots Slider */
+        .screenshots {
+            padding: 3rem 0;
+            text-align: center;
+        }
+
+        .swiper {
+            width: 100%;
+            padding: 1rem 0 4rem;
+        }
+
+        .swiper-slide {
+            width: auto;
+            height: clamp(600px, 60vw, 500px);
+            border-radius: 20px;
+            overflow: hidden;
+            transition: all 0.3s;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+
+        .swiper-slide-active {
+            transform: scale(1.05);
+            z-index: 1;
+        }
+
+        .swiper-slide img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+
+        /* تخصيص شريط التمرين */
+        .swiper-scrollbar {
+            background: rgba(255, 255, 255, 0.1) !important;
+            height: 8px !important;
+            border-radius: 10px !important;
+            bottom: 10px !important;
+            left: 50% !important;
+            transform: translateX(-50%) !important;
+            width: 80% !important;
+            max-width: 600px;
+            backdrop-filter: blur(5px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .swiper-scrollbar-drag {
+            background: linear-gradient(90deg, var(--secondary-color), var(--accent-color)) !important;
+            border-radius: 10px !important;
+            height: 100% !important;
+            cursor: grab;
+            transition: width 0.3s, background 0.3s;
+        }
+
+        .swiper-scrollbar-drag:active {
+            cursor: grabbing;
+        }
+
+        .swiper-scrollbar-drag:hover {
+            background: linear-gradient(90deg, var(--accent-color), var(--secondary-color)) !important;
+        }
+
+        /* Features Section */
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(min(280px, 100%), 1fr));
+            gap: 1.5rem;
+            margin: 3rem 0;
+            padding: 0 1rem;
+        }
+
+        .feature-card {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 1.5rem;
+            border-radius: 20px;
+            text-align: center;
+            transition: all 0.3s;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0, 159, 253, 0.1);
+        }
+
+        /* Logos Slider */
+        .logos-slider {
+            margin-top: 0px;
+            padding: 2rem 0;
+            text-align: center;
+        }
+
+        .logos-slider .swiper-slide {
+            width: 200px;
+            height: 100px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 15px;
+            padding: 1rem;
+        }
+
+        .logos-slider img {
+            max-width: 100%;
+            max-height: 100%;
+            filter: grayscale(0.5);
+            transition: all 0.3s;
+        }
+
+        .logos-slider img:hover {
+            filter: grayscale(0);
+            transform: scale(1.1);
+        }
+
+        /* Telegram Button */
+        .telegram-float {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            z-index: 100;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        .telegram-btn {
+            background: var(--telegram-color);
+            color: white;
+            padding: 1rem 2rem;
+            border-radius: 30px;
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            text-decoration: none;
+            box-shadow: 0 8px 25px rgba(0,136,204,0.3);
+            transition: all 0.3s;
+        }
+
+        .telegram-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 35px rgba(0,136,204,0.4);
+        }
+
+        /* Footer */
+        .copyright {
+            text-align: center;
+            padding: 1.5rem;
+            background: rgba(0, 0, 0, 0.3);
+            margin-top: auto;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            font-size: clamp(0.8rem, 3vw, 1rem);
+        }
+
+        @media (max-width: 768px) {
+            .swiper-slide {
+                width: auto;
+                height: clamp(500px, 50vw, 400px);
+            }
+            
+            
+            .telegram-btn {
+                padding: 0.8rem 1.5rem;
+                font-size: 0.9rem;
+            }
+            
+            .swiper-scrollbar {
+                width: 90% !important;
+                height: 6px !important;
+                bottom: 5px !important;
+            }
+
+            .header-buttons {
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+            .download-buttons {
+                flex-direction: column;
+                width: 100%;
+            }
+             .download-btn {
+                width: 100%;
+                justify-content: center;
+            }
+
+            .copy-code-btn {
+                padding: 0.5rem;
+                font-size: 0.9rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .swiper-slide {
+                width: 100%;
+                height: clamp(400px, 45vw, 300px);
+            }
+            
+            .download-buttons {
+                flex-direction: column;
+                width: 100%;
+            }
+            
+            .download-btn {
+                width: 100%;
+                justify-content: center;
+            }
+
+            .swiper-scrollbar {
+                width: 95% !important;
+                height: 5px !important;
+            }
+        }
+
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+    </style>
+</head>
+<body>
+
+<!------
+<a href="https://www.ahlamontada.com" target="_blank">ahlamontada.com</a>
+------>
+
+    <canvas class="particles"></canvas>
+    
+    <!-- الهيدر الجديد -->
+    <header id="mainHeader">
+    
+        <div class="header-content">
+            <h1 class="app-name">watan media</h1>
+            <div class="header-buttons">
+                <button class="download-btn" onclick="window.open('https://s01.babup.com/uploads/shoof-play.apk')">
+                    <i class="fas fa-download"></i> تنزيل التطبيق
+                </button>
+               
+            </div>
+        </div>
+    </header>
+
+    <div class="container">
+        <!-- سلايدر الشعارات الجديد -->
+        
+        <div class="logo-container">
+                <img src="https://www2.0zz0.com/2025/04/17/04/549925445.jpg" alt="Hakeka TV Logo" class="logo-img">
+                <h1 class="app-name">SHOOF PLAY</h1>
+            </div>
+
+        <!-- باقي المحتوى -->
+        <section class="hero">
+            <h1>مكتبة ضخمة لمشاهدة المسلسلات والافلام</h1>
+            <p>استمتع بأقوى محتوى حصري: أحدث الأفلام، المسلسلات الحصرية، وبث فوري بجودة 4K</p>
+            
+            <div class="download-buttons">
+                <button class="download-btn" onclick="window.open('https://s01.babup.com/uploads/shoof-play.apk')">
+                    <i class="fas fa-download"></i> تنزيل التطبيق برابط مباشر
+                </button>
+                
+                
+                
+            </div>
+            
+            
+<!----
+            <div class="app-info">
+                <div class="info-item">
+                    <i class="fas fa-shield-alt info-icon"></i>
+                    <h3>آمن 100%</h3>
+                    <p>خالي من أي برامج ضارة</p>
+                </div>
+                <div class="info-item">
+                    <i class="fas fa-download info-icon"></i>
+                    <h3>حجم صغير</h3>
+                    <p>25 ميجابايت فقط</p>
+                </div>
+                <div class="info-item">
+                    <i class="fas fa-mobile-alt info-icon"></i>
+                    <h3>متوافق مع جميع الأجهزة</h3>
+                    <p>أندرويد وآيفون</p>
+                </div>
+            </div>
+            
+            ----->
+        </section>
+        
+       
+        
+        <section class="logos-slider">
+        <p>يمكنك الاستمتاع بجميع الباقات مجانًا</p>
+        <br>
+            <div class="swiper logosSwiper" id="logosSwiper">
+                <div class="swiper-wrapper">
+                    <div class="swiper-slide">
+                        <img src="https://i.servimg.com/u/f62/20/15/89/97/tod11.png" alt="">
+                    </div>
+                    <div class="swiper-slide">
+                        <img src="https://i.servimg.com/u/f62/20/15/89/97/bein10.png" alt="">
+                    </div>
+                    <div class="swiper-slide">
+                        <img src="https://i.servimg.com/u/f62/20/15/89/97/ssc12.png" alt="">
+                    </div>
+                    <div class="swiper-slide">
+                        <img src="https://i.servimg.com/u/f62/20/15/89/97/svgvie10.png" alt="">
+                    </div>
+                     <div class="swiper-slide">
+                        <img src="https://i.servimg.com/u/f62/20/15/89/97/starz10.png" alt="">
+                    </div>
+                     <div class="swiper-slide">
+                        <img src="https://i.servimg.com/u/f62/20/15/89/97/osn12.png" alt="">
+                    </div>
+                     <div class="swiper-slide">
+                        <img src="https://i.servimg.com/u/f62/20/15/89/97/stc_tv12.png" alt="">
+                    </div>
+                     <div class="swiper-slide">
+                        <img src="https://i.servimg.com/u/f62/20/15/89/97/shahid13.png" alt="">
+                    </div>
+                    <div class="swiper-slide">
+                        <img src="https://i.servimg.com/u/f62/20/15/89/97/mbc11.png" alt="">
+                    </div>
+                    <div class="swiper-slide">
+                        <img src="https://i.servimg.com/u/f62/20/15/89/97/weyyak10.png" alt="">
+                    </div>
+                    <div class="swiper-slide">
+                        <img src="https://i.servimg.com/u/f62/20/15/89/97/rotana13.png" alt="">
+                    </div>
+                    <div class="swiper-slide">
+                        <img src="https://i.servimg.com/u/f62/20/15/89/97/downlo10.png" alt="">
+                    </div>
+                    <div class="swiper-slide">
+                        <img src="https://i.servimg.com/u/f62/20/15/89/97/logo12.png" alt="">
+                    </div>
+                    <div class="swiper-slide">
+                        <img src="https://pkg.fe.indazn.com/@dazn/landing-page-experiments/lib/0.9.363/dist/static/assets/dazn.f74c3ff5cbf64b90b6412884b420f80d.svg" alt="">
+                    </div>
+                    <div class="swiper-slide">
+                        <img src="https://www.ziggosport.nl/images/logos/logo-channel-ziggosport.svg" alt="">
+                    </div>
+                    <div class="swiper-slide">
+                        <img src="https://i.servimg.com/u/f62/20/15/89/97/favico10.png" alt="">
+                    </div>
+                    <div class="swiper-slide">
+                        <img src="https://i.servimg.com/u/f62/20/15/89/97/favico11.png" alt="">
+                    </div>
+                    <div class="swiper-slide">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/0/03/Go3_Sport.svg" alt="">
+                    </div>
+                    <div class="swiper-slide">
+                        <img src="https://i.servimg.com/u/f62/20/15/89/97/alkass10.png" alt="">
+                    </div>
+                    <div class="swiper-slide">
+                        <img src="https://i.servimg.com/u/f62/20/15/89/97/netfli10.png" alt="">
+                    </div>
+                    <div class="swiper-slide">
+                        <img src="https://i.servimg.com/u/f62/20/15/89/97/disney11.png" alt="">
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="screenshots">
+        <p>بعض اللقطات من داخل التطبيق</p>
+        <br>
+            <div class="swiper" id="screenshotsSwiper">
+                <div class="swiper-wrapper">
+                    <div class="swiper-slide">
+                        <img src="https://e.top4top.io/p_33944yc3r0.jpg" alt="">
+                    </div>
+                    <div class="swiper-slide">
+                        <img src="https://i.top4top.io/p_3394ngsq50.jpg" alt="">
+                    </div>
+                    <div class="swiper-slide">
+                        <img src="https://j.top4top.io/p_33941a3u70.jpg" alt="">
+                    </div>
+                    <div class="swiper-slide">
+                        <img src="https://l.top4top.io/p_3394vfpzs0.jpg" alt="">
+                    </div>
+                    <div class="swiper-slide">
+                        <img src="https://b.top4top.io/p_3394983j20.jpg" alt="">
+                    </div>
+                    
+                </div>
+                <div class="swiper-scrollbar"></div>
+            </div>
+        </section>
+
+        <section class="features">
+            
+            <div class="feature-card">
+                <i class="fas fa-video"></i>
+                <h3>مكتبة أفلام و مسلسلات ضخمة</h3>
+                <p>آلاف الأفلام و المسلسلات المحدثة يومياً بمختلف التصنيفات واللغات</p>
+            </div>
+            <div class="feature-card">
+                <i class="fas fa-magic"></i>
+                <h3>واجهة ذكية</h3>
+                <p>تصميم حديث مع تقنيات جدول المباريات والاهداف المحدثة يومياً</p>
+            </div>
+        </section>
+    </div>
+
+    <div class="telegram-float">
+        <a href="https://t.me/shoof_play" class="telegram-btn" target="_blank">
+            <i class="fab fa-telegram-plane"></i>
+            انضم للقناة
+        </a>
+    </div>
+
+    <footer class="copyright">
+        © 2025 watan media. جميع الحقوق محفوظة
+    </footer>
+
+    <script src="https://unpkg.com/swiper@8.4.5/swiper-bundle.min.js"></script>
+    
+        <script>
+        // إدارة ظهور الهيدر
+        window.addEventListener('scroll', function() {
+            const header = document.getElementById('mainHeader');
+            if (window.scrollY > 50) {
+                header.classList.add('scrolled');
+            } else {
+                header.classList.remove('scrolled');
+            }
+        });
+
+        // نسخ الأكواد
+        function copyCode(code) {
+            navigator.clipboard.writeText(code).then(() => {
+                alert('تم نسخ الكود: ' + code);
+            });
+        }
+
+        // تهيئة سلايدر الشعارات
+        const logosSwiper = new Swiper('.logosSwiper', {
+            loop: true,
+            spaceBetween: 20,
+            slidesPerView: 'auto',
+            autoplay: {
+                delay: 2000,
+                disableOnInteraction: false,
+            },
+            breakpoints: {
+                320: {
+                    slidesPerView: 2,
+                },
+                768: {
+                    slidesPerView: 4,
+                },
+                1024: {
+                    slidesPerView: 5,
+                }
+            }
+        });
+    </script>
+    <script>
+              // تهيئة سلايدر لقطات الشاشة
+    const screenshotsSwiper = new Swiper('#screenshotsSwiper', {
+        loop: true, // تمكين التكرار
+        slidesPerView: 1.2, // يضمن رؤية جزئية للشريحة التالية
+        centeredSlides: true,
+        spaceBetween: 20,
+        autoplay: {
+            delay: 3000, // تأخير 3 ثواني بين كل شريحة
+            disableOnInteraction: false, // الاستمرار في التشغيل التلقائي حتى عند التفاعل
+        },
+        scrollbar: {
+            el: '.swiper-scrollbar',
+            draggable: true
+        },
+        breakpoints: {
+            640: {
+                slidesPerView: 2,
+                spaceBetween: 20
+            },
+            1024: {
+                slidesPerView: 3,
+                spaceBetween: 30
+            }
+        }
+    });
+
+        // Particles Animation
+        class ParticleSystem {
+            constructor(canvas) {
+                this.canvas = canvas;
+                this.ctx = canvas.getContext('2d');
+                this.particles = [];
+                this.resize();
+                this.init();
+                this.animate();
+                window.addEventListener('resize', () => this.resize());
+            }
+
+            resize() {
+                this.canvas.width = window.innerWidth;
+                this.canvas.height = window.innerHeight;
+                this.particles = [];
+                this.init();
+            }
+
+            init() {
+                const density = Math.floor((this.canvas.width * this.canvas.height) / (window.innerWidth < 768 ? 25000 : 15000));
+                for (let i = 0; i < density; i++) {
+                    this.particles.push({
+                        x: Math.random() * this.canvas.width,
+                        y: Math.random() * this.canvas.height,
+                        size: Math.random() * 2 + 1,
+                        speedX: Math.random() * 3 - 1.5,
+                        speedY: Math.random() * 3 - 1.5,
+                        alpha: Math.random() * 0.3 + 0.2
+                    });
+                }
+            }
+
+            animate() {
+                this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+                
+                this.particles.forEach(particle => {
+                    particle.x += particle.speedX;
+                    particle.y += particle.speedY;
+
+                    if (particle.x > this.canvas.width) particle.x = 0;
+                    if (particle.x < 0) particle.x = this.canvas.width;
+                    if (particle.y > this.canvas.height) particle.y = 0;
+                    if (particle.y < 0) particle.y = this.canvas.height;
+
+                    this.ctx.beginPath();
+                    this.ctx.arc(particle.x, particle.y, particle.size, 0, Math.PI * 2);
+                    this.ctx.fillStyle = `rgba(255, 255, 255, ${particle.alpha})`;
+                    this.ctx.fill();
+                });
+
+                requestAnimationFrame(() => this.animate());
+            }
+        }
+
+        new ParticleSystem(document.querySelector('.particles'));
+    </script>
+</body>
+</html>
